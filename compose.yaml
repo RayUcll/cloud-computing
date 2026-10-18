@@ -1,0 +1,41 @@
+﻿services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Vul POSTGRES_DB in .env in}
+      POSTGRES_USER: ${POSTGRES_USER:?Vul POSTGRES_USER in .env in}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Vul POSTGRES_PASSWORD in .env in}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: ghcr.io/rayucll/storingsmelder:1.0.0
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Vul DATABASE_URL in .env in}
+      APP_TITEL: ${APP_TITEL:-Storingsmelder}
+      PORT: "8000"
+    ports:
+      - "${HOST_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:

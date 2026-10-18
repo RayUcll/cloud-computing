@@ -12,3 +12,6 @@ data/
 .vscode/
 .idea/
 .DS_Store
+
+# Environment variables and secrets
+.env
