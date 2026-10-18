@@ -1,27 +1,25 @@
 # Storingsmelder
-Pieterpost
-Een klein meldingensysteem voor storingen. Je meldt een storing via een
-formulier, je ziet de openstaande meldingen in een lijst, en je sluit ze af als
-ze opgelost zijn.
 
-Deze applicatie is het startpunt voor **Cloud computing (B-UCLL-MGN13A)**. Je
-werkt er het hele semester mee. De applicatie zelf verandert bijna niet, wat
-verandert is hoe en waar ze draait.
+Pieterpost
+
+Een klein meldingensysteem voor storingen. Je meldt een storing via een formulier, je ziet de openstaande meldingen in een lijst, en je sluit ze af als ze opgelost zijn.
+
+Deze applicatie is het startpunt voor **Cloud computing (B-UCLL-MGN13A)**. Je werkt er het hele semester mee. De applicatie zelf verandert bijna niet, wat verandert is hoe en waar ze draait.
 
 ---
 
 ## Wat er in deze repo zit
 
-```
+```text
 app.py              de applicatie
 requirements.txt    de pakketten die ze nodig heeft
 templates/          de HTML van de webpagina
+Dockerfile          om de applicatie te bouwen
+compose.yaml        om de applicatie en database samen te starten
+.dockerignore       bestanden die Docker bij het bouwen overslaat
+.env.example        voorbeeld van de instellingen
+.gitignore          bestanden die Git overslaat
 ```
-
-## Wat er bewust niet in zit
-
-Geen Dockerfile en geen compose-bestand. Die schrijf je zelf, dat is precies
-wat je in dit vak leert.
 
 ---
 
@@ -35,8 +33,7 @@ wat je in dit vak leert.
 
 ## Instellingen
 
-Alles wordt geregeld met environment variables. Er staat niets vast in de code,
-en er is geen configuratiebestand dat je moet aanpassen.
+Alles wordt geregeld met environment variables. Er staat niets vast in de code, en er is geen configuratiebestand dat je moet aanpassen.
 
 | Variabele | Standaard | Wat het doet |
 |---|---|---|
@@ -49,18 +46,15 @@ en er is geen configuratiebestand dat je moet aanpassen.
 
 De applicatie draait met of zonder aparte database.
 
-**Zonder `DATABASE_URL`** schrijft ze naar een SQLite-bestand. Dat werkt meteen
-en je hebt niets anders nodig. Let op waar dat bestand terechtkomt, want daar
-kom je later op terug.
+**Zonder `DATABASE_URL`** schrijft ze naar een SQLite-bestand. Dat werkt meteen en je hebt niets anders nodig. Let op waar dat bestand terechtkomt, want daar kom je later op terug.
 
 **Met `DATABASE_URL`** praat ze met PostgreSQL. Bijvoorbeeld:
 
-```
+```text
 DATABASE_URL=postgresql://storing:geheim@db:5432/storingen
 ```
 
-Je hoeft de tabel niet zelf aan te maken. De applicatie doet dat bij het
-opstarten als ze nog niet bestaat.
+Je hoeft de tabel niet zelf aan te maken. De applicatie doet dat bij het opstarten als ze nog niet bestaat.
 
 ---
 
@@ -68,13 +62,11 @@ opstarten als ze nog niet bestaat.
 
 Naast de gewone pagina is er een adres dat kort antwoordt of alles in orde is:
 
-```
+```text
 GET /health
 ```
 
-Draait alles, dan krijg je `{"status": "ok", ...}` met code 200. Kan de
-applicatie haar database niet bereiken, dan krijg je code 503. Dat adres komt
-later in het semester nog van pas.
+Draait alles, dan krijg je `{"status": "ok", ...}` met code 200. Kan de applicatie haar database niet bereiken, dan krijg je code 503. Dat adres komt later in het semester nog van pas.
 
 ---
 
@@ -92,6 +84,4 @@ Je begint dus nooit opnieuw. Elke opdracht bouwt verder op de vorige.
 
 ## Deze repo is van jou
 
-Je hebt hem gemaakt vanaf het sjabloon, dus dit is jouw kopie. Werk erin, commit
-elke les, en push. Indienen doe je met de link naar een commit. Hoe dat precies
-gaat, staat in de opdrachtbundel op Toledo.
+Je hebt hem gemaakt vanaf het sjabloon, dus dit is jouw kopie. Werk erin, commit elke les, en push. Indienen doe je met de link naar een commit. Hoe dat precies gaat, staat in de opdrachtbundel op Toledo.
